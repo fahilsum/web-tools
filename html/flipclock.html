@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flip Clock</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/523/523163.png">
+
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: #0f172a; /*#fdfcf0; */
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      font-family: 'Poppins', sans-serif;
+      color: #f0f0f0;
+      cursor: default;
+      padding: 1rem;
+    }
+
+    .clock {
+      display: flex;
+      gap: clamp(0.5rem, 2vw, 1rem);
+      transform: scale(1);
+      transition: transform 0.3s ease-in-out;
+      max-width: 100%;
+      overflow: visible;
+    }
+
+    .digit {
+      position: relative;
+      width: clamp(60px, 12vw, 100px);
+      height: clamp(90px, 18vw, 140px);
+      background: #131d35;
+      color: #fdfcf0;
+      font-size: clamp(50px, 10vw, 100px);
+      text-align: center;
+      line-height: clamp(90px, 18vw, 140px);
+      border-radius: 12px;
+      overflow: hidden;
+      perspective: 1000px;
+      box-shadow: 4px 6px 8px rgba(0,0,0,0.5);
+      user-select: none;
+    }
+
+    .digit span {
+      display: block;
+      transition: transform 0.5s ease-in-out;
+      backface-visibility: hidden;
+    }
+
+    .digit.flip span {
+      transform: rotateX(-180deg);
+    }
+
+    .colon {
+      font-size: clamp(50px, 10vw, 100px);
+      line-height: clamp(90px, 18vw, 140px);
+      font-weight: 900;
+      color: #fdfcf0;
+      user-select: none;
+      padding: 0 clamp(0.2rem, 1vw, 0.5rem);
+    }
+
+    .controls {
+      margin-top: 1.5rem;
+    }
+
+    button {
+      padding: 8px 14px;
+      background: #131d35;
+      color: #fdfcf0;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: clamp(14px, 2vw, 20px);
+      transition: background 0.3s;
+      user-select: none;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.5);
+    }
+
+    button:hover,
+    button:focus {
+      background: #16213d;
+      outline: none;
+    }
+
+    @media (max-width: 400px) {
+      .clock {
+        gap: 0.4rem;
+      }
+      .digit {
+        width: 50px;
+        height: 75px;
+        font-size: 45px;
+        line-height: 75px;
+        border-radius: 8px;
+      }
+      .colon {
+        font-size: 45px;
+        line-height: 75px;
+        padding: 0 0.3rem;
+      }
+      button {
+        padding: 6px 10px;
+        font-size: 16px;
+      }
+    }
+
+    .date {
+      padding: 15px;
+      border-radius: 8px;
+      text-align: center;
+    }
+    
+    #tanggal {
+      color: #fdfcf0;
+      font-family: 'Poppins', sans-serif;
+      font-weight: bold;
+      font-size: 21px;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="date">
+    <p><span id="tanggal"></span></p>
+  </div>
+
+  <div class="clock">
+    <div class="digit" id="h1"><span>0</span></div>
+    <div class="digit" id="h2"><span>0</span></div>
+    <div class="colon">:</div>
+    <div class="digit" id="m1"><span>0</span></div>
+    <div class="digit" id="m2"><span>0</span></div>
+    <div class="colon">:</div>
+    <div class="digit" id="s1"><span>0</span></div>
+    <div class="digit" id="s2"><span>0</span></div>
+  </div>
+
+  <div class="controls">
+    <button id="fullscreenBtn" onclick="goFullscreen()">⛶</button>
+  </div>
+
+  <script>
+    const elemenTanggal = document.getElementById('tanggal');
+    const hariIni = new Date();
+    elemenTanggal.innerText = hariIni.toLocaleDateString('id-ID', {
+      weekday:"long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    })
+
+    function updateClock() {
+      const now = new Date();
+      const timeStr = now.toTimeString().slice(0,8).replace(/:/g, "");
+      const digits = timeStr.split("");
+      const ids = ["h1","h2","m1","m2","s1","s2"];
+      
+      ids.forEach((id, i) => {
+        const el = document.getElementById(id).querySelector("span");
+        if (el.textContent !== digits[i]) {
+          el.parentElement.classList.add("flip");
+          setTimeout(() => {
+            el.textContent = digits[i];
+            el.parentElement.classList.remove("flip");
+          }, 250);
+        }
+      });
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    function goFullscreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen();
+        document.querySelector(".clock").style.transform = "scale(1.2)";
+        document.getElementById("fullscreenBtn").style.display = "none";
+        document.body.style.cursor = "pointer";
+      }
+    }
+
+    document.addEventListener("fullscreenchange", () => {
+      if (!document.fullscreenElement) {
+        document.querySelector(".clock").style.transform = "scale(1)";
+        document.getElementById("fullscreenBtn").style.display = "inline-block";
+        document.body.style.cursor = "default";
+      }
+    });
+
+    document.addEventListener("click", () => {
+      if (document.fullscreenElement) {
+        document.exitFullscreen();
+      }
+    });
+  </script>
+</body>
+</html>
