@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kalkulator Jam Tayang YouTube</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/17252/17252513.png">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      color: #fdfcf0;
+      background-color: #0f172a;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
+    }
+
+    p {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      color: #cbd5e1;
+      line-height: 1.5;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 500px;
+      padding: 30px;
+      border: 2px solid #20325b;
+      border-radius: 12px;
+      background-color: #131d35;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 400;
+    }
+
+    input[type="number"] {
+      width: 100%;
+      padding: 12px 15px;
+      margin-bottom: 1rem;
+      border: 1px solid #20325b;
+      border-radius: 6px;
+      background-color: #1e293b;
+      color: #fdfcf0;
+      font-size: 1rem;
+    }
+
+    .duration-inputs {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .duration-inputs input {
+      flex: 1;
+      text-align: center;
+      padding: 12px;
+    }
+
+    .duration-separator {
+      color: #64748b;
+      font-weight: 600;
+    }
+
+    button {
+      padding: 14px 20px;
+      background-color: #20325b;
+      color: #fdfcf0;
+      border: 1px solid #20325b;
+      border-radius: 6px;
+      cursor: pointer;
+      width: 100%;
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      transition: background-color 0.3s, transform 0.2s;
+      margin-top: 0.5rem;
+    }
+
+    button:hover {
+      background-color: #1c2c50;
+      transform: translateY(-2px);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    .result {
+      margin-top: 25px;
+      padding: 20px;
+      font-size: 1.3rem;
+      text-align: center;
+      background-color: rgba(32, 50, 91, 0.3);
+      border-radius: 8px;
+      border: 1px solid #20325b;
+      min-height: 75px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .highlight {
+      color: #60a5fa;
+      font-weight: 600;
+    }
+
+    .footer {
+      margin-top: 30px;
+      text-align: center;
+      color: #94a3b8;
+      font-size: 0.9rem;
+      max-width: 500px;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 600px) {
+      body {
+        padding: 15px;
+      }
+
+      .container {
+        padding: 25px 20px;
+        border-radius: 10px;
+      }
+
+      h1 {
+        font-size: 1.5rem;
+      }
+
+      p {
+        font-size: 0.95rem;
+      }
+
+      .duration-inputs {
+        flex-direction: row;
+      }
+
+      .duration-inputs input {
+        padding: 10px;
+      }
+
+      .result {
+        font-size: 1.1rem;
+        padding: 15px;
+      }
+    }
+
+    @media (max-width: 400px) {
+      .container {
+        padding: 20px 15px;
+      }
+
+      h1 {
+        font-size: 1.3rem;
+      }
+
+      .duration-inputs {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .duration-separator {
+        display: none;
+      }
+
+      .duration-inputs input {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Kalkulator Jam Tayang YouTube</h1>
+    <p>Untuk mengetahui sudah berapa jam tayang untuk 1 video berdasarkan jumlah views dan durasi video</p>
+
+    <div class="form-group">
+      <label for="views">Masukkan jumlah views:</label>
+      <input type="number" id="views" placeholder="Contoh: 10000" min="0">
+    </div>
+
+    <div class="form-group">
+      <label for="duration">Masukkan durasi video:</label>
+      <div class="duration-inputs">
+        <input type="number" id="hours" placeholder="Jam" min="0" max="99">
+        <span class="duration-separator">:</span>
+        <input type="number" id="minutes" placeholder="Menit" min="0" max="59">
+        <span class="duration-separator">:</span>
+        <input type="number" id="seconds" placeholder="Detik" min="0" max="59">
+      </div>
+    </div>
+
+    <button onclick="calculateWatchTime()">Hitung Jam Tayang</button>
+
+    <div id="result" class="result">
+      Hasil akan muncul di sini
+    </div>
+  </div>
+
+  <div class="footer">
+    <p>Kalkulator ini menghitung total jam tayang dengan rumus: <br>
+      (views × durasi video dalam detik) ÷ 3600</p>
+  </div>
+
+  <script>
+    function calculateWatchTime() {
+      const hours = parseInt(document.getElementById('hours').value) || 0;
+      const minutes = parseInt(document.getElementById('minutes').value) || 0;
+      const seconds = parseInt(document.getElementById('seconds').value) || 0;
+      const views = parseInt(document.getElementById('views').value) || 0;
+
+      if (!views) {
+        alert('Harap masukkan jumlah views.');
+        return;
+      }
+
+      if (hours === 0 && minutes === 0 && seconds === 0) {
+        alert('Harap masukkan durasi video yang valid.');
+        return;
+      }
+
+      const totalSeconds = (hours * 3600) + (minutes * 60) + seconds;
+      const totalWatchTimeInSeconds = totalSeconds * views;
+      const totalWatchTimeInHours = totalWatchTimeInSeconds / 3600;
+      const resultElement = document.getElementById('result');
+      const formattedViews = views.toLocaleString('id-ID');
+      const formattedHours = totalWatchTimeInHours.toLocaleString('id-ID', {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 2
+      });
+
+      resultElement.innerHTML = `
+        <div>
+          <div style="margin-bottom: 8px; font-size: 0.9rem; color: #cbd5e1;">
+            ${formattedViews} views × ${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}
+          </div>
+          <div>Total Jam Tayang: <span class="highlight">${formattedHours} jam</span></div>
+        </div>
+      `;
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      const inputs = document.querySelectorAll('input');
+      inputs.forEach(input => {
+        input.addEventListener('keyup', function (event) {
+          if (event.key === 'Enter') {
+            calculateWatchTime();
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>
