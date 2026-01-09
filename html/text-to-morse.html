@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Konversi Teks ke Kode Morse</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/4075/4075430.png" type="image/png">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 20px;
+      min-height: 100vh;
+      background: #0f172a;
+      color: #fdfcf0;
+      line-height: 1.6;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    h2 {
+      color: #fdfcf0;
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: clamp(1.5rem, 4vw, 2rem);
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+      line-height: 1.3;
+    }
+
+    input,
+    button,
+    textarea {
+      font-family: 'Poppins', sans-serif;
+      font-size: clamp(0.9rem, 3vw, 1rem);
+      padding: 14px 12px;
+      margin-top: 12px;
+      width: 100%;
+      border: 1px solid #fdfcf0;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+
+    input:focus,
+    textarea:focus {
+      outline: none;
+      border-color: #4a90e2;
+      box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
+    }
+
+    textarea {
+      height: 150px;
+      min-height: 120px;
+      background-color: #131d35;
+      color: #fdfcf0;
+      resize: vertical;
+    }
+
+    button {
+      background-color: #20325b;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+      color: #fdfcf0;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 15px;
+      margin-top: 15px;
+    }
+
+    button:hover,
+    button:focus {
+      background-color: #1c2c50;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    button:active {
+      transform: translateY(1px);
+    }
+
+    .container {
+      background-color: #131d35;
+      padding: clamp(20px, 5vw, 30px);
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      color: #a0a0a0;
+      font-size: clamp(0.85rem, 2.5vw, 0.95rem);
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 15px;
+        align-items: flex-start;
+        padding-top: 30px;
+      }
+
+      .container {
+        padding: 20px 15px;
+        border-radius: 10px;
+      }
+
+      h2 {
+        margin-bottom: 25px;
+        padding: 0 5px;
+      }
+
+      input,
+      button,
+      textarea {
+        padding: 12px 10px;
+        margin-top: 10px;
+      }
+
+      button {
+        padding: 14px;
+        font-size: 0.95rem;
+      }
+
+      textarea {
+        height: 140px;
+        min-height: 100px;
+      }
+    }
+
+    @media (max-width: 320px) {
+      body {
+        padding: 10px;
+      }
+
+      .container {
+        padding: 15px 10px;
+      }
+
+      h2 {
+        font-size: 1.3rem;
+        margin-bottom: 20px;
+      }
+
+      input,
+      button,
+      textarea {
+        padding: 10px 8px;
+        font-size: 0.85rem;
+      }
+    }
+
+    @media (max-height: 500px) and (orientation: landscape) {
+      body {
+        align-items: flex-start;
+        padding: 10px;
+      }
+
+      .container {
+        max-width: 90%;
+      }
+
+      textarea {
+        height: 100px;
+        min-height: 80px;
+      }
+    }
+
+    @media (hover: none) and (pointer: coarse) {
+
+      button,
+      input,
+      textarea {
+        min-height: 44px;
+      }
+
+      button {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h2>Konversi Teks ke Kode Morse</h2>
+    <input type="text" id="textInput" placeholder="Ketik teks di sini... (Tekan Enter untuk konversi)" />
+    <button onclick="convertToMorse()">Konversi ke Morse</button>
+    <button onclick="copyMorseCode()" id="copyButton">
+      <i class="fas fa-copy"></i> Copy
+    </button>
+    <textarea id="morseOutput" readonly placeholder="Kode Morse akan tampil di sini..."></textarea>
+  </div>
+
+  <script>
+    const morseCodeMap = {
+      'A': '·−', 'B': '−···', 'C': '−·−·', 'D': '−··', 'E': '·',
+      'F': '··−·', 'G': '−−·', 'H': '····', 'I': '··', 'J': '·−−−',
+      'K': '−·−', 'L': '·−··', 'M': '−−', 'N': '−·', 'O': '−−−',
+      'P': '·−−·', 'Q': '−−·−', 'R': '·−·', 'S': '···', 'T': '−',
+      'U': '··−', 'V': '···−', 'W': '·−−', 'X': '−··−', 'Y': '−·−−',
+      'Z': '−−··',
+      '0': '−−−−−', '1': '·−−−−', '2': '··−−−', '3': '···−−', '4': '····−',
+      '5': '·····', '6': '−····', '7': '−−···', '8': '−−−··', '9': '−−−−·',
+      ' ': '/'
+    };
+
+    function convertToMorse() {
+      const input = document.getElementById('textInput').value.toUpperCase();
+      let output = '';
+
+      for (let char of input) {
+        if (morseCodeMap[char]) {
+          output += morseCodeMap[char] + ' ';
+        } else {
+
+          output += '? ';
+        }
+      }
+
+      document.getElementById('morseOutput').value = output.trim();
+    }
+
+    document.getElementById('textInput').addEventListener('keydown', function (event) {
+      if (event.key === 'Enter' || event.keyCode === 13) {
+        event.preventDefault();
+        convertToMorse();
+      }
+    });
+
+    function copyMorseCode() {
+      const morseOutput = document.getElementById('morseOutput');
+      const copyButton = document.getElementById('copyButton');
+
+      if (!morseOutput.value.trim()) {
+        alert("Konversi teks terlebih dahulu, baru bisa copy!");
+        return;
+      }
+
+      navigator.clipboard.writeText(morseOutput.value)
+        .then(() => {
+          const originalText = copyButton.innerHTML;
+          copyButton.innerHTML = '<i class="fas fa-check"></i> Copied!';
+          copyButton.classList.add('copied');
+
+          setTimeout(() => {
+            copyButton.innerHTML = originalText;
+            copyButton.classList.remove('copied');
+          }, 2000);
+        })
+        .catch(err => {
+          console.error('Gagal menyalin: ', err);
+          alert("Gagal menyalin kode Morse. Silakan coba lagi.");
+        });
+    }
+  </script>
+</body>
+
+</html>
