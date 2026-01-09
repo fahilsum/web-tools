@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lirik ➜ JSON (.json) Generator</title>
+  <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/1322/1322164.png">
+
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card: #111827;
+      --muted: #94a3b8;
+      --text: #e5e7eb;
+      --accent: #22c55e;
+      --accent2: #3b82f6;
+      --accent3: #a91b13;
+    }
+
+    * {
+      box-sizing: border-box
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, sans-serif;
+      background: linear-gradient(120deg, #0b1220, #0a0f1a 50%, #0f172a);
+      color: var(--text);
+    }
+
+    .wrap {
+      max-width: 980px;
+      margin: 40px auto;
+      padding: 24px
+    }
+
+    .card {
+      background: rgba(17, 24, 39, .75);
+      backdrop-filter: blur(6px);
+      border: 1px solid rgba(148, 163, 184, .15);
+      border-radius: 18px;
+      box-shadow: 0 10px 35px rgba(0, 0, 0, .35);
+      overflow: hidden
+    }
+
+    header {
+      padding: 22px 22px 10px
+    }
+
+    header h1 {
+      margin: 0 0 6px;
+      font-size: clamp(20px, 3.2vw, 28px)
+    }
+
+    header p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px
+    }
+
+    .grid {
+      display: grid;
+      gap: 14px;
+      padding: 16px
+    }
+
+    @media(min-width:860px) {
+      .grid {
+        grid-template-columns: 1fr 1fr
+      }
+    }
+
+    label {
+      display: block;
+      font-size: 12px;
+      color: var(--muted);
+      margin: 0 0 6px
+    }
+
+    textarea,
+    input[type="text"] {
+      width: 100%;
+      background: #0b1020;
+      color: var(--text);
+      border: 1px solid rgba(148, 163, 184, .2);
+      border-radius: 12px;
+      padding: 12px 14px;
+      outline: none;
+      transition: border-color .18s ease
+    }
+
+    textarea {
+      min-height: 260px;
+      resize: vertical;
+      line-height: 1.45
+    }
+
+    textarea:focus,
+    input:focus {
+      border-color: var(--accent2)
+    }
+
+    .row {
+      display: flex;
+      gap: 10px;
+      align-items: end
+    }
+
+    .row .field {
+      flex: 1
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap
+    }
+
+    button {
+      appearance: none;
+      border: 0;
+      border-radius: 12px;
+      padding: 12px 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform .06s ease, filter .12s ease, background .2s ease
+    }
+
+    button:active {
+      transform: translateY(1px)
+    }
+
+    .primary {
+      background: var(--accent2);
+      color: white
+    }
+
+    .ghost, .clear {
+      background: var(--accent);
+      color: var(--text);
+      border: 1px solid rgba(148, 163, 184, .25)
+    }
+
+    .clear {
+      background: var(--accent3);
+    }
+
+    .success {
+      background: var(--accent);
+      color: #082414
+    }
+
+    .muted {
+      color: var(--muted);
+      font-size: 12px
+    }
+
+    .out {
+      min-height: 260px
+    }
+
+    .footer {
+      padding: 16px 22px 22px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap
+    }
+
+    .badge {
+      font-size: 11px;
+      border: 1px solid rgba(148, 163, 184, .25);
+      padding: 6px 10px;
+      border-radius: 999px;
+      color: var(--muted)
+    }
+
+    code.kbd {
+      background: #0b1020;
+      padding: 2px 6px;
+      border-radius: 6px;
+      border: 1px solid rgba(148, 163, 184, .2)
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="card" role="region" aria-label="Lirik ke JSON Generator">
+      <header>
+        <h1>Ubah Lirik ➜ Format JSON & Unduh .json</h1>
+        <p>Tempel lirik per baris di kiri, klik <strong>Generate JSON</strong>. Hasil ditampilkan di kanan dan bisa
+          diunduh dengan tombol <em>Download .json</em>.</p>
+      </header>
+
+      <div class="grid">
+        <section>
+          <label for="lyrics">Lirik (satu baris per kalimat)</label>
+          <textarea id="lyrics"
+            placeholder="Contoh: &#10; &#10;Melihatmu bersemi dan bermekaran &#10;Tawa candamu berikan kekuatan &#10;Sisa hariku pagi berganti waktu &#10;Memelukmu &#10; &#10;Kita kan tua dan kehilangan pegangan &#10;Lihat senyummu memberikan kekuatan &#10;Sisa nafasku cinta tak kenal waktu &#10;Menjagamu"></textarea>
+
+          <div class="row" style="margin-top:10px">
+            <div class="field">
+              <label for="filename">Nama file (.json)</label>
+              <input id="filename" type="text" placeholder="default: lirik.json" />
+            </div>
+            <div class="field" style="max-width:200px">
+              <label for="defaultTime">Waktu default (ms)</label>
+              <input id="defaultTime" type="text" inputmode="numeric" placeholder="0" />
+            </div>
+          </div>
+
+          <div class="actions" style="margin-top:10px">
+            <button id="generateBtn" class="primary">Generate JSON</button>
+            <button id="downloadBtn" class="ghost" title="Unduh hasil">Download .json</button>
+            <button id="clearBtn" class="clear" title="Bersihkan input & output">Clear</button>
+          </div>
+          <p class="muted" style="margin-top:8px">Catatan: <br>
+            tekan <code class="kbd">Ctrl + Enter</code> untuk Generate. <br>
+            Bidang <code class="kbd">waktu</code> diisi angka (ms). Anda bisa mengubah nilai defaultnya di atas. <br>
+          </p>
+        </section>
+
+        <section>
+          <label for="output">Hasil JSON</label>
+          <textarea id="output" class="out" readonly
+            placeholder="Hasil akan muncul di sini setelah Generate.."></textarea>
+        </section>
+      </div>
+
+      <div class="footer">
+        <span class="badge">Tip: Baris kosong akan otomatis diabaikan.</span>
+        <span class="muted"><b>client-side only</b></span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const $ = (s) => document.querySelector(s);
+    const lyricsEl = $('#lyrics');
+    const outputEl = $('#output');
+    const fileEl = $('#filename');
+    const timeEl = $('#defaultTime');
+    const genBtn = $('#generateBtn');
+    const dlBtn = $('#downloadBtn');
+    const clearBtn = $('#clearBtn');
+
+    function toLines(text) {
+      return text
+        .replace(/\r\n?/g, '\n')
+        .split('\n')
+        .map(s => s.trim())
+        .filter(Boolean);
+    }
+
+    function buildJson(lines, defaultTime) {
+      const time = Number.isFinite(+defaultTime) ? +defaultTime : 0;
+      const obj = {
+        lyrics: lines.map(line => ({ line, time }))
+      };
+      return JSON.stringify(obj, null, 2);
+    }
+
+    function downloadJson(filename, jsonString) {
+      const blob = new Blob([jsonString], { type: 'application/json;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename.endsWith('.json') ? filename : `${filename}.json`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    genBtn.addEventListener('click', () => {
+      const lines = toLines(lyricsEl.value);
+      if (!lines.length) {
+        outputEl.value = '❗ Tidak ada baris lirik. Tempel lirik di kolom kiri.';
+        outputEl.focus();
+        return;
+      }
+      const json = buildJson(lines, timeEl.value);
+      outputEl.value = json;
+    });
+
+    dlBtn.addEventListener('click', () => {
+      const text = outputEl.value.trim();
+      if (!text || !text.startsWith('{')) {
+        alert('Belum ada hasil untuk diunduh. Klik Generate dulu.');
+        return;
+      }
+      downloadJson(fileEl.value.trim() || 'lirik.json', text);
+    });
+
+    clearBtn.addEventListener('click', () => {
+      lyricsEl.value = '';
+      outputEl.value = '';
+      lyricsEl.focus();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+        genBtn.click();
+      }
+    });
+  </script>
+</body>
+</html>
