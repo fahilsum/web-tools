@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Konversi Waktu ke Milidetik</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/1900/1900598.png">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      padding: 20px;
+      background: #0f172a;
+      color: #fdfcf0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .container {
+      background: #131d35;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+      width: 100%;
+      max-width: 400px;
+      margin: 0 auto;
+      border: 1px solid #20325b;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 25px;
+      color: #fdfcf0;
+      font-weight: 600;
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    label {
+      font-weight: 500;
+      display: block;
+      margin-bottom: 8px;
+      color: #fdfcf0;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px 15px;
+      font-size: 16px;
+      border: 1px solid #20325b;
+      border-radius: 6px;
+      background: #0f172a;
+      color: #fdfcf0;
+      transition: all 0.3s ease;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: #1c2c50;
+      box-shadow: 0 0 0 3px rgba(32, 50, 91, 0.3);
+    }
+
+    input::placeholder {
+      color: #a0aec0;
+    }
+
+    .result {
+      margin-top: 25px;
+      padding: 20px;
+      text-align: center;
+      font-size: 24px;
+      font-weight: 600;
+      background: #0f172a;
+      border-radius: 8px;
+      border: 1px solid #20325b;
+      color: #fdfcf0;
+      min-height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      word-break: break-all;
+    }
+
+    .button-group {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+      gap: 10px;
+    }
+
+    button {
+      padding: 12px 0;
+      font-size: 16px;
+      font-weight: 500;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      flex: 1;
+      text-align: center;
+    }
+
+    .konversi-btn {
+      background: #20325b;
+      color: #fdfcf0;
+      border: 1px solid #20325b;
+    }
+
+    .copy-btn,
+    .clear-btn {
+      background: #20325b;
+      color: #fdfcf0;
+      border: 1px solid #20325b;
+    }
+
+    .konversi-btn:hover,
+    .copy-btn:hover,
+    .clear-btn:hover {
+      background: #1c2c50;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 15px;
+        align-items: flex-start;
+        padding-top: 30px;
+      }
+
+      .container {
+        padding: 20px;
+        max-width: 100%;
+      }
+
+      h2 {
+        font-size: 22px;
+        margin-bottom: 20px;
+      }
+
+      .button-group {
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      button {
+        width: 100%;
+        padding: 14px 0;
+      }
+
+      .result {
+        font-size: 22px;
+        padding: 18px;
+      }
+
+      input {
+        padding: 14px;
+      }
+    }
+
+    @media (max-width: 350px) {
+      .container {
+        padding: 15px;
+      }
+
+      h2 {
+        font-size: 20px;
+      }
+
+      .result {
+        font-size: 20px;
+        padding: 15px;
+      }
+    }
+
+    .info {
+      margin-top: 20px;
+      font-size: 14px;
+      color: #cbd5e0;
+      text-align: center;
+      line-height: 1.5;
+      padding-top: 15px;
+      border-top: 1px solid #20325b;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>Konversi Waktu ke Milidetik</h2>
+
+    <div class="form-group">
+      <label for="menit">Menit</label>
+      <input type="number" id="menit" placeholder="Masukkan menit" min="0">
+    </div>
+
+    <div class="form-group">
+      <label for="detik">Detik</label>
+      <input type="number" id="detik" placeholder="Masukkan detik" min="0">
+    </div>
+
+    <div class="form-group">
+      <label for="milidetik">Milidetik</label>
+      <input type="number" id="milidetik" placeholder="Masukkan milidetik (0-999)" min="0" max="999"
+        oninput="tambahZero()">
+    </div>
+
+    <div class="button-group">
+      <button class="konversi-btn" onclick="konversiWaktu()">Konversi</button>
+      <button class="copy-btn" id="copyBtn" onclick="copyHasil()">Salin</button>
+      <button class="clear-btn" id="clearBtn" onclick="clearForm()">Hapus</button>
+    </div>
+
+    <div class="result" id="hasil">-</div>
+
+    <div class="info">
+      <p>Masukkan nilai waktu di atas dan klik "Konversi" untuk menghitung total milidetik.</p>
+    </div>
+  </div>
+
+  <script>
+    function tambahZero() {
+      var milidetikInput = document.getElementById('milidetik');
+      var milidetikValue = milidetikInput.value;
+
+      if (milidetikValue.length === 2 && milidetikValue > 0) {
+        milidetikInput.value = milidetikValue + '0';
+      }
+    }
+
+    function konversiWaktu() {
+      var menit = parseInt(document.getElementById('menit').value) || 0;
+      var detik = parseInt(document.getElementById('detik').value) || 0;
+      var milidetik = parseInt(document.getElementById('milidetik').value) || 0;
+
+      if (milidetik > 999) {
+        alert("Milidetik harus antara 0 dan 999");
+        document.getElementById('milidetik').value = "";
+        document.getElementById('milidetik').focus();
+        return;
+      }
+
+      var totalMilidetik = (menit * 60 * 1000) + (detik * 1000) + milidetik;
+      var formattedResult = totalMilidetik.toLocaleString('id-ID');
+
+      document.getElementById('hasil').textContent = formattedResult + " ms";
+      document.getElementById('hasil').style.animation = "none";
+      setTimeout(() => {
+        document.getElementById('hasil').style.animation = "fadeIn 0.5s";
+      }, 10);
+    }
+
+    function copyHasil() {
+      var hasilElement = document.getElementById('hasil');
+      var hasil = hasilElement.textContent;
+
+      hasil = hasil.replace(" ms", "");
+
+      if (hasil === "-" || hasil === "") {
+        alert("Tidak ada hasil untuk disalin. Silakan konversi terlebih dahulu.");
+        return;
+      }
+
+      var tempInput = document.createElement("input");
+      document.body.appendChild(tempInput);
+      tempInput.value = hasil;
+      tempInput.select();
+      tempInput.setSelectionRange(0, 99999);
+      document.execCommand("copy");
+      document.body.removeChild(tempInput);
+
+      var originalText = hasilElement.textContent;
+      hasilElement.textContent = "Disalin!";
+      hasilElement.style.color = "#4ade80";
+
+      setTimeout(() => {
+        hasilElement.textContent = originalText;
+        hasilElement.style.color = "#fdfcf0";
+      }, 1500);
+    }
+
+    function clearForm() {
+      document.getElementById('menit').value = '';
+      document.getElementById('detik').value = '';
+      document.getElementById('milidetik').value = '';
+      document.getElementById('hasil').textContent = '-';
+
+      document.getElementById('menit').focus();
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      var inputs = document.querySelectorAll('input');
+      inputs.forEach(function (input) {
+        input.addEventListener('keypress', function (e) {
+          if (e.key === 'Enter') {
+            konversiWaktu();
+          }
+        });
+      });
+
+      document.getElementById('menit').focus();
+    });
+  </script>
+</body>
+</html>
