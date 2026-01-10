@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LRC ➜ JSON Converter</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/1322/1322164.png">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      color: #fdfcf0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    h2 {
+      text-align: center;
+      color: #fdfcf0;
+      margin-bottom: 20px;
+      font-size: clamp(1.5rem, 4vw, 2rem);
+    }
+
+    .container {
+      width: 100%;
+      max-width: 700px;
+      background: #131d35;
+      padding: clamp(15px, 4vw, 25px);
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      margin: 0 auto;
+    }
+
+    .file-input-container {
+      position: relative;
+      margin-bottom: 20px;
+    }
+
+    input[type="file"] {
+      width: 100%;
+      padding: 15px;
+      border: 2px dashed #20325b;
+      border-radius: 8px;
+      background-color: rgba(32, 50, 91, 0.2);
+      color: #fdfcf0;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    input[type="file"]:hover {
+      border-color: #3b4f8a;
+      background-color: rgba(32, 50, 91, 0.3);
+    }
+
+    input[type="file"]::file-selector-button {
+      background: #20325b;
+      color: white;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      margin-right: 10px;
+      transition: background 0.3s ease;
+    }
+
+    input[type="file"]::file-selector-button:hover {
+      background: #1c2c50;
+    }
+
+    button {
+      background: #20325b;
+      color: white;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 600;
+      margin-top: 5px;
+      transition: all 0.3s ease;
+      width: 100%;
+    }
+
+    button:hover {
+      background: #1c2c50;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    .info-box {
+      background: rgba(32, 50, 91, 0.2);
+      border-left: 4px solid #20325b;
+      padding: 12px;
+      margin: 20px 0;
+      border-radius: 0 6px 6px 0;
+      font-size: 14px;
+    }
+
+    .info-box p {
+      margin-bottom: 5px;
+    }
+
+    .info-box ul {
+      padding-left: 20px;
+      margin-top: 5px;
+    }
+
+    pre {
+      background: #1a2238;
+      color: #fdfcf0;
+      padding: 15px;
+      border-radius: 8px;
+      overflow-x: auto;
+      max-height: 300px;
+      display: none;
+      margin-top: 20px;
+      font-size: 14px;
+      border: 1px solid #20325b;
+    }
+
+    .actions {
+      margin-top: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    a.download,
+    button.clear {
+      padding: 12px 20px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      text-align: center;
+      flex: 1;
+      min-width: 140px;
+    }
+
+    a.download {
+      background: #2d4f8a;
+      color: #fdfcf0;
+      display: none;
+    }
+
+    a.download:hover {
+      background: #264278;
+      transform: translateY(-2px);
+    }
+
+    button.clear {
+      background: #d32f2f;
+      color: #fdfcf0;
+      border: none;
+      cursor: pointer;
+      display: none;
+    }
+
+    button.clear:hover {
+      background: #b71c1c;
+      transform: translateY(-2px);
+    }
+
+    label {
+      font-weight: 600;
+      display: block;
+      margin-bottom: 8px;
+      font-size: 16px;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 30px;
+      color: #94a3b8;
+      font-size: 14px;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 20px;
+        border-radius: 12px;
+      }
+
+      .actions {
+        flex-direction: column;
+      }
+
+      a.download,
+      button.clear {
+        width: 100%;
+        min-width: unset;
+      }
+
+      input[type="file"] {
+        padding: 12px;
+      }
+
+      pre {
+        font-size: 12px;
+        max-height: 250px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 15px;
+      }
+
+      .container {
+        padding: 15px;
+      }
+
+      h2 {
+        font-size: 1.4rem;
+      }
+
+      button,
+      a.download,
+      button.clear {
+        padding: 10px 15px;
+        font-size: 14px;
+      }
+
+      .info-box {
+        font-size: 13px;
+        padding: 10px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h2>LRC to JSON Converter</h2>
+
+    <div class="info-box">
+      <p><strong>Instructions:</strong></p>
+      <ul>
+        <li>Select an LRC file (standard lyrics file format)</li>
+        <li>Click "Convert" to transform it into JSON format</li>
+        <li>Download the JSON file with the same name as your LRC file</li>
+      </ul>
+    </div>
+
+    <label for="lrcFile">Select LRC File</label>
+    <input type="file" id="lrcFile" accept=".lrc">
+
+    <button onclick="convertLRC()">Convert to JSON</button>
+
+    <pre id="output"></pre>
+
+    <div class="actions">
+      <a id="downloadLink" class="download">Download JSON</a>
+      <button class="clear" onclick="clearOutput()">Clear All</button>
+    </div>
+  </div>
+
+  <div class="footer">
+    <p>Convert LRC lyrics files to structured JSON format</p>
+  </div>
+
+  <script>function timeToMilliseconds(timeStr) {
+      const [minSec, ms = '00'] = timeStr.split('.');
+      const [min, sec] = minSec.split(':').map(Number);
+      const centiseconds = parseInt(ms.padEnd(2, '0'), 10);
+      return (min * 60 * 1000) + (sec * 1000) + (centiseconds * 10);
+    }
+
+    function convertLRC() {
+      const fileInput = document.getElementById('lrcFile');
+      const output = document.getElementById('output');
+      const downloadLink = document.getElementById('downloadLink');
+      const clearBtn = document.querySelector('.clear');
+      const convertBtn = document.querySelector('button[onclick="convertLRC()"]');
+
+      if (!fileInput.files[0]) {
+        alert('Please select an LRC file first!');
+        return;
+      }
+
+      const originalText = convertBtn.textContent;
+      convertBtn.textContent = "Converting...";
+      convertBtn.disabled = true;
+
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        const lines = e.target.result.split(/\r?\n/);
+        const result = [];
+
+        lines.forEach(line => {
+          const lyricMatch = line.match(/\[(\d{2}:\d{2}(?:\.\d{1,2})?)\](.*)/);
+          if (lyricMatch) {
+            const timeStr = lyricMatch[1].trim();
+            const text = lyricMatch[2].trim();
+            const timeMs = timeToMilliseconds(timeStr);
+
+            if (text) {
+              result.push({ line: text, time: timeMs });
+            }
+          }
+        });
+
+        result.sort((a, b) => a.time - b.time);
+
+        const jsonOutput = { lyrics: result };
+        const jsonString = JSON.stringify(jsonOutput, null, 2);
+
+        output.style.display = "block";
+        output.textContent = jsonString;
+
+        const originalName = fileInput.files[0].name.replace(/\.[^/.]+$/, "");
+        const outputName = originalName + ".json";
+        const blob = new Blob([jsonString], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+
+        downloadLink.href = url;
+        downloadLink.download = outputName;
+        downloadLink.style.display = "inline-block";
+        downloadLink.textContent = "Download " + outputName;
+
+        clearBtn.style.display = "inline-block";
+
+        convertBtn.textContent = originalText;
+        convertBtn.disabled = false;
+
+        output.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      };
+
+      reader.onerror = function () {
+        alert('Error reading file. Please try again.');
+        convertBtn.textContent = originalText;
+        convertBtn.disabled = false;
+      };
+
+      reader.readAsText(fileInput.files[0]);
+    }
+
+    function clearOutput() {
+      document.getElementById('output').style.display = "none";
+      document.getElementById('output').textContent = "";
+      document.getElementById('downloadLink').style.display = "none";
+      document.querySelector('.clear').style.display = "none";
+      document.getElementById('lrcFile').value = "";
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      const fileInput = document.getElementById('lrcFile');
+      const container = document.querySelector('.container');
+
+      if (!container) return;
+
+      ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+        container.addEventListener(eventName, preventDefaults, false);
+      });
+
+      function preventDefaults(e) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+
+      ['dragenter', 'dragover'].forEach(eventName => {
+        container.addEventListener(eventName, highlight, false);
+      });
+
+      ['dragleave', 'drop'].forEach(eventName => {
+        container.addEventListener(eventName, unhighlight, false);
+      });
+
+      function highlight() {
+        container.style.boxShadow = '0 0 0 3px #3b4f8a';
+      }
+
+      function unhighlight() {
+        container.style.boxShadow = '';
+      }
+
+      container.addEventListener('drop', handleDrop, false);
+
+      function handleDrop(e) {
+        const dt = e.dataTransfer;
+        const files = dt.files;
+
+        if (files.length > 0 && files[0].name.toLowerCase().endsWith('.lrc')) {
+          fileInput.files = files;
+
+          setTimeout(convertLRC, 100);
+        } else {
+          alert('Please drop a valid .lrc file');
+        }
+      }
+    });
+  </script>
+</body>
+</html>
