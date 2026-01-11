@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Keygen</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/14162/14162089.png">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #0f172a;
+      color: #fdfcf0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .container {
+      background-color: #131d35;
+      border-radius: 16px;
+      padding: 40px;
+      width: 100%;
+      max-width: 800px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      margin: 20px;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+      background: linear-gradient(90deg, #fdfcf0, #cbd5e1);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-align: center;
+    }
+
+    h2 {
+      font-size: 1.8rem;
+      margin-bottom: 25px;
+      color: #fdfcf0;
+      text-align: center;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #94a3b8;
+      margin-bottom: 40px;
+      font-size: 1.1rem;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .menu,
+    .keygen {
+      width: 100%;
+    }
+
+    .key-display {
+      font-size: 1.8rem;
+      margin: 25px auto;
+      letter-spacing: 2px;
+      font-family: 'Courier New', monospace;
+      background-color: rgba(0, 0, 0, 0.2);
+      padding: 20px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #00ffcc;
+      word-wrap: break-word;
+      text-align: center;
+      width: 100%;
+      max-width: 600px;
+      box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+      transition: all 0.3s ease;
+    }
+
+    .key-display:hover {
+      box-shadow: inset 0 0 15px rgba(0, 255, 204, 0.1);
+    }
+
+    .buttons-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+      margin: 25px 0;
+    }
+
+    button {
+      padding: 14px 28px;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      background-color: #20325b;
+      color: #fdfcf0;
+      border: 2px solid #20325b;
+      border-radius: 10px;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-width: 160px;
+    }
+
+    button:hover {
+      background-color: #1c2c50;
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    button:active {
+      transform: translateY(-1px);
+    }
+
+    button i {
+      font-size: 1.2rem;
+    }
+
+    .back-button {
+      background-color: transparent;
+      border-color: #475569;
+      margin-top: 20px;
+    }
+
+    .back-button:hover {
+      background-color: rgba(71, 85, 105, 0.2);
+    }
+
+    input {
+      padding: 12px;
+      margin: 8px;
+      width: 100px;
+      text-align: center;
+      border-radius: 8px;
+      border: 2px solid #334155;
+      background-color: rgba(15, 23, 42, 0.5);
+      color: #fdfcf0;
+      font-size: 1rem;
+    }
+
+    .input-group {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      margin: 25px 0;
+      gap: 15px;
+    }
+
+    .input-label {
+      color: #94a3b8;
+      font-size: 1rem;
+      margin-bottom: 5px;
+      display: block;
+    }
+
+    .error-msg {
+      color: #f87171;
+      font-size: 0.9rem;
+      margin: 10px 0;
+      text-align: center;
+      min-height: 20px;
+    }
+
+    .copy-success {
+      color: #00ff88;
+      font-size: 0.9rem;
+      text-align: center;
+      margin-top: 10px;
+      display: none;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 30px;
+      gap: 15px;
+    }
+
+    .logo-icon {
+      font-size: 2.5rem;
+      color: #00ffcc;
+    }
+
+    .menu-options {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      margin-top: 30px;
+    }
+
+    .menu-btn {
+      flex-direction: column;
+      height: 120px;
+      padding: 20px;
+    }
+
+    .menu-btn span {
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+
+    .menu-btn small {
+      font-size: 0.8rem;
+      font-weight: 300;
+      color: #cbd5e1;
+      margin-top: 5px;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 25px;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+
+      h2 {
+        font-size: 1.5rem;
+      }
+
+      .key-display {
+        font-size: 1.4rem;
+        padding: 15px;
+      }
+
+      button {
+        padding: 12px 20px;
+        min-width: 140px;
+      }
+
+      .menu-options {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 20px;
+      }
+
+      .key-display {
+        font-size: 1.2rem;
+        letter-spacing: 1px;
+        padding: 12px;
+      }
+
+      .input-group {
+        flex-direction: column;
+      }
+
+      input {
+        width: 100%;
+        max-width: 200px;
+      }
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+  <div class="container">
+    <div class="logo">
+      <i class="fas fa-key logo-icon"></i>
+      <h1>Keygen</h1>
+    </div>
+
+    <p class="subtitle">Generate license keys dengan format yang berbeda</p>
+
+    <div id="menu" class="menu">
+      <div class="menu-options">
+        <button class="menu-btn" onclick="showKeygen(4)">
+          <i class="fas fa-th-large"></i>
+          <span>4 Kolom</span>
+          <small>Format: </br>XXXX-XXXX-XXXX-XXXX</small>
+        </button>
+
+        <button class="menu-btn" onclick="showKeygen(5)">
+          <i class="fas fa-th"></i>
+          <span>5 Kolom</span>
+          <small>Format: </br>XXXXX-XXXXX-XXXXX-XXXXX-XXXXX</small>
+        </button>
+
+        <button class="menu-btn" onclick="showCustom()">
+          <i class="fas fa-sliders-h"></i>
+          <span>Custom</span>
+          <small>Atur jumlah kolom dan karakter</small>
+        </button>
+      </div>
+    </div>
+
+    <div id="keygen4" class="keygen hidden">
+      <h2><i class="fas fa-th-large"></i> Key Generator - 4 Kolom</h2>
+      <div id="display4" class="key-display">XXXX-XXXX-XXXX-XXXX</div>
+
+      <div class="buttons-container">
+        <button onclick="generateKey(4, 4, 'display4')">
+          <i class="fas fa-key"></i> Generate Key
+        </button>
+        <button onclick="copyToClipboard('display4', 'copyMsg4')">
+          <i class="fas fa-copy"></i> Salin Key
+        </button>
+      </div>
+
+      <div id="copyMsg4" class="copy-success">Key berhasil disalin!</div>
+
+      <div class="buttons-container">
+        <button class="back-button" onclick="backToMenu()">
+          <i class="fas fa-arrow-left"></i> Kembali ke Menu
+        </button>
+      </div>
+    </div>
+
+    <div id="keygen5" class="keygen hidden">
+      <h2><i class="fas fa-th"></i> Key Generator - 5 Kolom</h2>
+      <div id="display5" class="key-display">XXXXX-XXXXX-XXXXX-XXXXX-XXXXX</div>
+
+      <div class="buttons-container">
+        <button onclick="generateKey(5, 5, 'display5')">
+          <i class="fas fa-key"></i> Generate Key
+        </button>
+        <button onclick="copyToClipboard('display5', 'copyMsg5')">
+          <i class="fas fa-copy"></i> Salin Key
+        </button>
+      </div>
+
+      <div id="copyMsg5" class="copy-success">Key berhasil disalin!</div>
+
+      <div class="buttons-container">
+        <button class="back-button" onclick="backToMenu()">
+          <i class="fas fa-arrow-left"></i> Kembali ke Menu
+        </button>
+      </div>
+    </div>
+
+    <div id="keygenCustom" class="keygen hidden">
+      <h2><i class="fas fa-sliders-h"></i> Key Generator - Custom</h2>
+      <div id="displayCustom" class="key-display">---</div>
+
+      <div class="input-group">
+        <div>
+          <label class="input-label">Jumlah Kolom</label>
+          <input type="number" id="customCols" min="3" max="7" value="3">
+        </div>
+
+        <div>
+          <label class="input-label">Karakter per Kolom</label>
+          <input type="number" id="customChars" min="3" max="7" value="3">
+        </div>
+      </div>
+
+      <div class="error-msg" id="customError"></div>
+
+      <div class="buttons-container">
+        <button onclick="generateCustomKey()">
+          <i class="fas fa-key"></i> Generate Key
+        </button>
+        <button onclick="copyToClipboard('displayCustom', 'copyMsgCustom')">
+          <i class="fas fa-copy"></i> Salin Key
+        </button>
+      </div>
+
+      <div id="copyMsgCustom" class="copy-success">Key berhasil disalin!</div>
+
+      <div class="buttons-container">
+        <button class="back-button" onclick="backToMenu()">
+          <i class="fas fa-arrow-left"></i> Kembali ke Menu
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function showKeygen(columns) {
+      document.getElementById("menu").classList.add("hidden");
+      document.getElementById("keygen4").classList.add("hidden");
+      document.getElementById("keygen5").classList.add("hidden");
+      document.getElementById("keygenCustom").classList.add("hidden");
+
+      if (columns === 4) {
+        document.getElementById("keygen4").classList.remove("hidden");
+      } else if (columns === 5) {
+        document.getElementById("keygen5").classList.remove("hidden");
+      }
+    }
+
+    function showCustom() {
+      document.getElementById("menu").classList.add("hidden");
+      document.getElementById("keygenCustom").classList.remove("hidden");
+      document.getElementById("customError").textContent = "";
+      document.getElementById("displayCustom").textContent = "---";
+    }
+
+    function backToMenu() {
+      document.getElementById("menu").classList.remove("hidden");
+      document.getElementById("keygen4").classList.add("hidden");
+      document.getElementById("keygen5").classList.add("hidden");
+      document.getElementById("keygenCustom").classList.add("hidden");
+      document.getElementById("copyMsg4").style.display = "none";
+      document.getElementById("copyMsg5").style.display = "none";
+      document.getElementById("copyMsgCustom").style.display = "none";
+    }
+
+    function generateKey(columns, lengthPerCol, elementId) {
+      const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+      const keyParts = [];
+
+      for (let i = 0; i < columns; i++) {
+        let part = "";
+        for (let j = 0; j < lengthPerCol; j++) {
+          const randIndex = Math.floor(Math.random() * chars.length);
+          part += chars[randIndex];
+        }
+        keyParts.push(part);
+      }
+
+      document.getElementById(elementId).textContent = keyParts.join("-");
+
+      const keyElement = document.getElementById(elementId);
+      keyElement.style.transform = "scale(1.05)";
+      keyElement.style.boxShadow = "inset 0 0 20px rgba(0, 255, 204, 0.2)";
+
+      setTimeout(() => {
+        keyElement.style.transform = "scale(1)";
+        keyElement.style.boxShadow = "inset 0 0 10px rgba(0, 0, 0, 0.5)";
+      }, 300);
+    }
+
+    function generateCustomKey() {
+      const cols = parseInt(document.getElementById("customCols").value);
+      const chars = parseInt(document.getElementById("customChars").value);
+      const errorMsg = document.getElementById("customError");
+
+      if (isNaN(cols) || isNaN(chars) || cols < 3 || cols > 7 || chars < 3 || chars > 7) {
+        errorMsg.textContent = "Jumlah kolom dan karakter harus antara 3 hingga 7.";
+        errorMsg.style.color = "#f87171";
+        return;
+      }
+
+      errorMsg.textContent = "";
+      generateKey(cols, chars, 'displayCustom');
+    }
+
+    function copyToClipboard(elementId, messageId) {
+      const text = document.getElementById(elementId).textContent;
+      const placeholderValues = ["---", "XXXX-XXXX-XXXX-XXXX", "XXXXX-XXXXX-XXXXX-XXXXX-XXXXX"];
+
+      if (placeholderValues.includes(text)) {
+        const errorMsg = document.getElementById(elementId === 'displayCustom' ? 'customError' : 'copyMsg4');
+        const originalContent = errorMsg.textContent;
+        errorMsg.textContent = "Silakan klik 'Generate' terlebih dahulu sebelum menyalin.";
+        errorMsg.style.color = "#f87171";
+
+        setTimeout(() => {
+          errorMsg.textContent = originalContent;
+          if (elementId === 'displayCustom') {
+            errorMsg.style.color = "#f87171";
+          }
+        }, 2000);
+        return;
+      }
+
+      navigator.clipboard.writeText(text).then(function () {
+        const msg = document.getElementById(messageId);
+        msg.style.display = "block";
+        msg.style.color = "#00ff88";
+
+        setTimeout(() => {
+          msg.style.display = "none";
+        }, 2000);
+      }).catch(function (err) {
+        console.error('Gagal menyalin teks: ', err);
+        const errorMsg = document.getElementById(messageId);
+        errorMsg.textContent = "Gagal menyalin key. Coba lagi.";
+        errorMsg.style.color = "#f87171";
+        errorMsg.style.display = "block";
+
+        setTimeout(() => {
+          errorMsg.style.display = "none";
+        }, 2000);
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      const buttons = document.querySelectorAll('button');
+      buttons.forEach(button => {
+        button.addEventListener('mouseenter', function () {
+          this.style.transform = 'translateY(-3px)';
+        });
+
+        button.addEventListener('mouseleave', function () {
+          this.style.transform = 'translateY(0)';
+        });
+      });
+    });
+  </script>
+</body>
+</html>
