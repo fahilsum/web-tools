@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Chatbot</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/2593/2593627.png">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #0f172a;
+      color: #fdfcf0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .container {
+      background: #131d35;
+      width: 100%;
+      max-width: 800px;
+      border-radius: 16px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+      border: 1px solid #20325b;
+      margin-top: 20px;
+    }
+
+    header {
+      padding: 24px;
+      text-align: center;
+      border-bottom: 1px solid #20325b;
+    }
+
+    h1 {
+      font-weight: 600;
+      font-size: 2rem;
+      margin-bottom: 8px;
+      background: linear-gradient(to right, #fdfcf0, #a5b4fc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .subtitle {
+      font-weight: 300;
+      opacity: 0.8;
+      font-size: 0.95rem;
+    }
+
+    .chat-container {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .input-section {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .input-label {
+      font-weight: 400;
+      font-size: 1.1rem;
+    }
+
+    textarea {
+      background: #0f172a;
+      border: 2px solid #20325b;
+      border-radius: 12px;
+      color: #fdfcf0;
+      font-family: 'Poppins', sans-serif;
+      font-size: 1rem;
+      padding: 16px;
+      resize: vertical;
+      min-height: 120px;
+      transition: all 0.3s ease;
+    }
+
+    textarea:focus {
+      outline: none;
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+    }
+
+    textarea::placeholder {
+      color: #94a3b8;
+      font-weight: 300;
+    }
+
+    .button-container {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    button {
+      background: #20325b;
+      color: #fdfcf0;
+      border: 2px solid #20325b;
+      border-radius: 12px;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+      font-size: 1rem;
+      padding: 14px 32px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    button:hover {
+      background: #1c2c50;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    .response-section {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-top: 8px;
+    }
+
+    .response-label {
+      font-weight: 400;
+      font-size: 1.1rem;
+    }
+
+    #response {
+      background: #0f172a;
+      border: 2px solid #20325b;
+      border-radius: 12px;
+      padding: 20px;
+      min-height: 120px;
+      font-weight: 300;
+      line-height: 1.6;
+      transition: all 0.3s ease;
+    }
+
+    #response strong {
+      font-weight: 600;
+      color: #a5b4fc;
+    }
+
+    .instructions {
+      background: rgba(32, 50, 91, 0.3);
+      border-radius: 12px;
+      padding: 16px;
+      margin-top: 16px;
+      font-size: 0.9rem;
+      line-height: 1.5;
+      border-left: 4px solid #20325b;
+    }
+
+    .instructions h3 {
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #a5b4fc;
+    }
+
+    footer {
+      margin-top: 32px;
+      text-align: center;
+      font-weight: 300;
+      font-size: 0.9rem;
+      opacity: 0.7;
+      padding: 16px;
+    }
+
+    .loading {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(253, 252, 240, 0.3);
+      border-radius: 50%;
+      border-top-color: #fdfcf0;
+      animation: spin 1s ease-in-out infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        border-radius: 12px;
+      }
+
+      h1 {
+        font-size: 1.7rem;
+      }
+
+      .chat-container {
+        padding: 20px;
+      }
+
+      textarea {
+        min-height: 100px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 12px;
+      }
+
+      .container {
+        margin-top: 10px;
+      }
+
+      h1 {
+        font-size: 1.5rem;
+      }
+
+      .chat-container {
+        padding: 16px;
+      }
+
+      button {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+    code.kbd {
+      background: #0e1429df;
+      font-weight: bold;
+      padding: 2px 6px;
+      border-radius: 6px;
+      border: 1px solid rgba(148, 163, 184, .2)
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <header>
+      <h1>AI Chatbot</h1>
+      <p class="subtitle">Tekan <code class="kbd">Enter</code> untuk mengirim, dan <code class="kbd">Shift + Enter</code> untuk baris baru.</p>
+    </header>
+
+    <div class="chat-container">
+      <div class="input-section">
+        <label for="userInput" class="input-label">Pertanyaan Kamu:</label>
+        <textarea id="userInput" placeholder="Ketik pertanyaan kamu di sini...&#13;&quot;Makna lagu Don't Look Back In Anger dari Oasis&quot;" autofocus></textarea>
+
+        <div class="button-container">
+          <button id="sendButton" onclick="sendMessage()">
+            <span>Kirim Pertanyaan</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="22" y1="2" x2="11" y2="13"></line>
+              <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="response-section">
+        <label class="response-label">Jawaban AI:</label>
+        <div id="response">Respons AI akan muncul di sini...</div>
+      </div>
+
+      <div class="instructions">
+        <h3>Catatan:</h3>
+        <p>- AI ini tidak mengingat pesan sebelumnya</p>
+        <p>- Tidak ada batasan jumlah total permintaan</p>
+        <p>- Pembatasan Kecepatan: 1 permintaan setiap 5 detik </p>
+        <p>- Format permintaan sederhana</p>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>󠁯•󠁏󠁏 🤖 AI Assistant 󠁯•󠁏󠁏</p>
+  </footer>
+
+  <script>
+    const textarea = document.getElementById("userInput");
+    const responseDiv = document.getElementById("response");
+    const sendButton = document.getElementById("sendButton");
+
+    async function sendMessage() {
+      const message = textarea.value.trim();
+      if (!message) {
+        responseDiv.textContent = "Pesan kamu masih kosong nih... Silakan isi pertanyaan terlebih dahulu ya :D";
+        return;
+      }
+
+      responseDiv.innerHTML = '<span class="loading"></span> Sedang memproses...';
+      sendButton.disabled = true;
+      sendButton.innerHTML = '<span>Memproses...</span>';
+      sendButton.style.opacity = '0.7';
+
+      const originalMessage = textarea.value;
+      textarea.value = "";
+
+      try {
+        const apiPayloads = [
+          { message: originalMessage },
+          { prompt: originalMessage },
+          { messages: [{ role: "user", content: originalMessage }] },
+          { input: originalMessage },
+          { query: originalMessage }
+        ];
+
+        let data;
+        let success = false;
+
+        for (let i = 0; i < apiPayloads.length; i++) {
+          try {
+            console.log(`Mencoba format ${i + 1}:`, apiPayloads[i]);
+
+            const res = await fetch("https://apifreellm.com/api/chat", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+              },
+              body: JSON.stringify(apiPayloads[i])
+            });
+
+            if (!res.ok) {
+              console.log(`Format ${i + 1} gagal dengan status:`, res.status);
+              continue;
+            }
+
+            const responseData = await res.json();
+            console.log(`Format ${i + 1} berhasil:`, responseData);
+
+            if (responseData.status === "success" && responseData.response) {
+              data = responseData;
+              success = true;
+              break;
+            } else if (responseData.answer) {
+              data = { status: "success", response: responseData.answer };
+              success = true;
+              break;
+            } else if (responseData.content) {
+              data = { status: "success", response: responseData.content };
+              success = true;
+              break;
+            } else if (responseData.text) {
+              data = { status: "success", response: responseData.text };
+              success = true;
+              break;
+            } else if (responseData.result) {
+              data = { status: "success", response: responseData.result };
+              success = true;
+              break;
+            } else if (responseData.message) {
+              data = { status: "success", response: responseData.message };
+              success = true;
+              break;
+            }
+          } catch (formatError) {
+            console.log(`Error pada format ${i + 1}:`, formatError);
+          }
+        }
+
+        if (success) {
+          const formattedResponse = data.response
+            .replace(/\n/g, '<br>')
+            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+            .replace(/\*(.*?)\*/g, '<em>$1</em>');
+
+          responseDiv.innerHTML = `<div style="margin-bottom: 10px;"><strong style="color: #a5b4fc;">🤖 AI:</strong></div><div style="line-height: 1.6;">${formattedResponse}</div>`;
+        } else {
+          responseDiv.textContent = "⚠️ Mencoba API alternatif...";
+
+          await tryAlternativeAPI(originalMessage);
+        }
+
+      } catch (error) {
+        console.error("Error utama:", error);
+        responseDiv.textContent = "🚫 Gagal menghubungi API. Coba lagi atau periksa koneksi internet.";
+
+        if (error.message.includes("Failed to fetch")) {
+          responseDiv.textContent += " (Koneksi internet bermasalah)";
+        } else if (error.message.includes("CORS")) {
+          responseDiv.textContent += " (Masalah CORS - coba buka di localhost)";
+        }
+      } finally {
+        sendButton.disabled = false;
+        sendButton.innerHTML = '<span>Kirim Pertanyaan</span><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>';
+        sendButton.style.opacity = '1';
+      }
+    }
+
+    async function tryAlternativeAPI(message) {
+      try {
+        const res = await fetch("https://api.deepseek.com/chat/completions", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer sk-3a5e9b7c8d0f1g2h3i4j5k6l7m8n9o0p ini API Key dummy. aman aja."
+          },
+          body: JSON.stringify({
+            model: "deepseek-chat",
+            messages: [{ role: "user", content: message }],
+            max_tokens: 1
+          })
+        });
+
+        if (res.ok) {
+          const data = await res.json();
+          if (data.choices && data.choices[0]) {
+            responseDiv.innerHTML = `<div style="margin-bottom: 10px;"><strong style="color: #a5b4fc;">🤖 AI (DeepSeek):</strong></div><div style="line-height: 1.6;">${data.choices[0].message.content.replace(/\n/g, '<br>')}</div>`;
+            return;
+          }
+        }
+      } catch (e) {
+        console.log("API alternatif 1 gagal:", e);
+      }
+
+      responseDiv.innerHTML = `
+        <div style="color: #f87171; margin-bottom: 10px;">
+          <strong>⚠️ Error: Tidak dapat terhubung ke server AI.</strong>
+        </div>
+        <div style="font-size: 0.9rem; line-height: 1.5;">
+          <p>Kemungkinan penyebab:</p>
+          <ul style="margin-left: 20px; margin-top: 5px;">
+            <li>API server sedang down</li>
+            <li>Koneksi internet bermasalah</li>
+            <li>Format request tidak sesuai</li>
+          </ul>
+          <p style="margin-top: 10px;">Silakan coba lagi nanti atau gunakan pertanyaan yang berbeda.</p>
+        </div>
+      `;
+    }
+
+    textarea.addEventListener("keydown", function (event) {
+      if (event.key === "Enter" && !event.shiftKey) {
+        event.preventDefault();
+        sendMessage();
+      }
+    });
+
+    textarea.addEventListener("mouseenter", function () {
+      this.style.borderColor = "#3b82f6";
+    });
+
+    textarea.addEventListener("mouseleave", function () {
+      if (document.activeElement !== this) {
+        this.style.borderColor = "#20325b";
+      }
+    });
+
+    sendButton.addEventListener("click", sendMessage);
+  </script>
+</body>
+</html>
