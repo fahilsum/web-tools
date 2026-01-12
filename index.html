@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Web Tools - Fahilsum</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/2092/2092104.png">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    :root {
+      --background: #0f172a;
+      --button: #20325b;
+      --border: #20325b;
+      --button-hover: #1c2c50;
+      --container: #131d35;
+      --text-color: #fdfcf0;
+    }
+
+    body {
+      background-color: var(--background);
+      color: var(--text-color);
+      line-height: 1.6;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      padding: 40px 20px;
+      margin-bottom: 30px;
+    }
+
+    .logo {
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+      color: #4f8cff;
+    }
+
+    h1 {
+      font-size: 2.8rem;
+      margin-bottom: 10px;
+      background: linear-gradient(90deg, #4f8cff, #8bb9ff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .subtitle {
+      font-size: 1.2rem;
+      color: #a5b4cb;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 25px;
+      margin-bottom: 50px;
+    }
+
+    .tool-card {
+      background-color: var(--container);
+      border-radius: 15px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .tool-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+      border-color: #4f8cff;
+    }
+
+    .tool-icon {
+      background: linear-gradient(135deg, #1c2c50, #20325b);
+      padding: 25px;
+      text-align: center;
+      font-size: 2.8rem;
+      color: #4f8cff;
+    }
+
+    .tool-content {
+      padding: 25px;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .tool-title {
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+      color: #e2e8f0;
+    }
+
+    .tool-description {
+      color: #cbd5e1;
+      margin-bottom: 20px;
+      flex-grow: 1;
+    }
+
+    .tool-button {
+      display: inline-block;
+      background-color: var(--button);
+      color: var(--text-color);
+      text-decoration: none;
+      padding: 12px 25px;
+      border-radius: 8px;
+      font-weight: 600;
+      text-align: center;
+      border: 1px solid var(--border);
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .tool-button:hover {
+      background-color: var(--button-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .tool-button i {
+      margin-left: 8px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px 20px;
+      margin-top: 40px;
+      border-top: 1px solid var(--border);
+      color: #a5b4cb;
+    }
+
+    .github-link {
+      display: inline-flex;
+      align-items: center;
+      color: #4f8cff;
+      text-decoration: none;
+      font-weight: 600;
+      margin-top: 15px;
+      padding: 8px 16px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      transition: all 0.3s ease;
+    }
+
+    .github-link:hover {
+      background-color: rgba(79, 140, 255, 0.1);
+      transform: translateY(-2px);
+    }
+
+    .github-link i {
+      margin-right: 8px;
+    }
+
+    @media (max-width: 768px) {
+      .tools-grid {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      }
+
+      h1 {
+        font-size: 2.2rem;
+      }
+
+      .subtitle {
+        font-size: 1.1rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .tools-grid {
+        grid-template-columns: 1fr;
+      }
+
+      h1 {
+        font-size: 1.8rem;
+      }
+
+      .tool-icon {
+        padding: 20px;
+        font-size: 2.2rem;
+      }
+    }
+
+    .stats {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin: 30px 0 40px;
+      flex-wrap: wrap;
+    }
+
+    .stat-item {
+      text-align: center;
+      padding: 15px 25px;
+      background-color: rgba(19, 29, 53, 0.7);
+      border-radius: 10px;
+      border: 1px solid var(--border);
+    }
+
+    .stat-number {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #4f8cff;
+    }
+
+    .stat-label {
+      font-size: 0.9rem;
+      color: #a5b4cb;
+      margin-top: 5px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <header>
+      <div class="logo">
+        <i class="fas fa-toolbox"></i>
+      </div>
+      <h1>Koleksi Tools Utilitas</h1>
+      <p class="subtitle">
+        Kumpulan alat online praktis untuk berbagai kebutuhan: konversi waktu, teks, lirik, chatbot, dan lainnya. Semua
+        tools dapat digunakan langsung di browser tanpa perlu instalasi.
+      </p>
+
+      <div class="stats">
+        <div class="stat-item">
+          <div class="stat-number">0</div>
+          <div class="stat-label">Tools Tersedia</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">0</div>
+          <div class="stat-label">Gratis</div>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <div class="tools-grid">
+        <!-- AI Chatbot -->
+        <div class="tool-card">
+          <div class="tool-icon">
+            <i class="fas fa-robot"></i>
+          </div>
+          <div class="tool-content">
+            <h3 class="tool-title">AI Chatbot</h3>
+            <p class="tool-description">
+              Chatbot yang dapat membantu menjawab pertanyaan. Hanya untuk pertanyaan sederhana saja.
+            </p>
+            <a href="https://fahilsum.github.io/html/ai-chatbot.html" class="tool-button" target="_blank">
+              Buka Tool <i class="fas fa-external-link-alt"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- Flip Clock -->
+        <div class="tool-card">
+          <div class="tool-icon">
+            <i class="fas fa-clock"></i>
+          </div>
+          <div class="tool-content">
+            <h3 class="tool-title">Flip Clock</h3>
+            <p class="tool-description">
+              Menampilkan jam digital dengan efek flip.
+            </p>
+            <a href="https://fahilsum.github.io/html/flipclock.html" class="tool-button" target="_blank">
+              Buka Tool <i class="fas fa-external-link-alt"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- LRC Converter -->
+        <div class="tool-card">
+          <div class="tool-icon">
+            <i class="fas fa-music"></i>
+          </div>
+          <div class="tool-content">
+            <h3 class="tool-title">LRC Converter</h3>
+            <p class="tool-description">
+              Konversi file lirik LRC ke format JSON. Bisa untuk web musik. <a href="https://fahilsum.github.io/playlist/#/" target="_blank"><b>https://fahilsum.github.io/playlist/</b></a>
+            </p>
+            <a href="https://fahilsum.github.io/html/lrc-converter.html" class="tool-button" target="_blank">
+              Buka Tool <i class="fas fa-external-link-alt"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- Lyrics to JSON -->
+        <div class="tool-card">
+          <div class="tool-icon">
+            <i class="fas fa-file-code"></i>
+          </div>
+          <div class="tool-content">
+            <h3 class="tool-title">Lyrics to JSON</h3>
+            <p class="tool-description">
+              Konversi lirik lagu ke format JSON. Kurang lebih sama seperti LRC Converter.
+            </p>
+            <a href="https://fahilsum.github.io/html/lyrics-to-json.html" class="tool-button" target="_blank">
+              Buka Tool <i class="fas fa-external-link-alt"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- Text to Morse -->
+        <div class="tool-card">
+          <div class="tool-icon">
+            <i class="fas fa-broadcast-tower"></i>
+          </div>
+          <div class="tool-content">
+            <h3 class="tool-title">Text to Morse</h3>
+            <p class="tool-description">
+              Konversi teks biasa ke kode Morse. </br><b>SOS &nbsp;&nbsp; &rarr; &nbsp;&nbsp;&nbsp;··· −−− ···</b>
+            </p>
+            <a href="https://fahilsum.github.io/html/text-to-morse.html" class="tool-button" target="_blank">
+              Buka Tool <i class="fas fa-external-link-alt"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- Time to Milliseconds -->
+        <div class="tool-card">
+          <div class="tool-icon">
+            <i class="fas fa-stopwatch"></i>
+          </div>
+          <div class="tool-content">
+            <h3 class="tool-title">Time to Milliseconds</h3>
+            <p class="tool-description">
+              Konversi waktu (jam, menit, detik) ke milidetik.
+            </p>
+            <a href="https://fahilsum.github.io/html/time-to-milliseconds.html" class="tool-button" target="_blank">
+              Buka Tool <i class="fas fa-external-link-alt"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- YouTube Watch Time Counter -->
+        <div class="tool-card">
+          <div class="tool-icon">
+            <i class="fab fa-youtube"></i>
+          </div>
+          <div class="tool-content">
+            <h3 class="tool-title">YT Watch Time Counter</h3>
+            <p class="tool-description">
+              Hitung total waktu menonton YouTube berdasarkan jumlah video dan durasi rata-rata.
+            </p>
+            <a href="https://fahilsum.github.io/html/yt-watch-time-counter.html" class="tool-button" target="_blank">
+              Buka Tool <i class="fas fa-external-link-alt"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- Key Generator -->
+        <div class="tool-card">
+          <div class="tool-icon">
+            <i class="fas fa-key"></i>
+          </div>
+          <div class="tool-content">
+            <h3 class="tool-title">Key Generator</h3>
+            <p class="tool-description">
+              Key Generator untuk membuat license key.
+            </p>
+            <a href="https://fahilsum.github.io/html/keygen.html" class="tool-button" target="_blank">
+              Buka Tool <i class="fas fa-external-link-alt"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- Coming Soon -->
+        <div class="tool-card">
+          <div class="tool-icon">
+            <i class="fas fa-plus-circle"></i>
+          </div>
+          <div class="tool-content">
+            <h3 class="tool-title">More Tools Coming</h3>
+            <p class="tool-description">
+              Nantikan update terbaru dari koleksi tools ini. COMING SOON.
+            </p>
+            <a href="https://github.com/fahilsum/web-tools" class="tool-button" target="_blank">
+              Pantau Update <i class="fab fa-github"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <p>&copy; 2026 Fahilsum</p>
+      <p>Semua tools dapat digunakan secara gratis tanpa batasan.</p>
+      <a href="https://github.com/fahilsum" class="github-link" target="_blank">
+        <i class="fab fa-github"></i> Kunjungi GitHub Saya
+      </a>
+    </footer>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const counters = [
+        {
+          element: document.querySelectorAll('.stat-number')[0],
+          target: 8,
+          suffix: ''
+        },
+        {
+          element: document.querySelectorAll('.stat-number')[1],
+          target: 100,
+          suffix: '%'
+        }
+      ];
+
+      counters.forEach(counter => {
+        let currentCount = 0;
+        const increment = counter.target / 50;
+
+        const counterInterval = setInterval(() => {
+          currentCount += increment;
+          if (currentCount >= counter.target) {
+            currentCount = counter.target;
+            clearInterval(counterInterval);
+          }
+          counter.element.textContent = Math.floor(currentCount) + counter.suffix;
+        }, 40);
+      });
+
+      const toolCards = document.querySelectorAll('.tool-card');
+      toolCards.forEach(card => {
+        card.addEventListener('mouseenter', function () {
+          const icon = this.querySelector('.tool-icon i');
+          icon.style.transform = 'scale(1.1)';
+          icon.style.transition = 'transform 0.3s ease';
+        });
+
+        card.addEventListener('mouseleave', function () {
+          const icon = this.querySelector('.tool-icon i');
+          icon.style.transform = 'scale(1)';
+        });
+      });
+    });
+  </script>
+</body>
+</html>
